@@ -1,0 +1,104 @@
+{
+ "cells": [
+  {
+   "kind": 2,
+   "value": "ClearAll[\"Global`*\"];\r\n\\[Phi][x_,y_]:=  1/2 * A * x^2 + 1/2 * B * y^2;\r\nbernulliEqu = \\[Phi][x,y] + (\\[Rho][x,y]^(\\[Gamma] - 1)) * \\[Gamma] * k / (\\[Gamma] - 1) + (vX[x,y]^2 + vY[x,y]^2)/2 == phi0\r\ncontEqu = Div[{\\[Rho][x,y]*vX[x,y], \\[Rho][x,y]*vY[x,y]},{x,y}] == 0\r\n\r\ninitialRho[x_,y_] := Piecewise[{((\\[Gamma] - 1) * (phi0 - \\[Phi][x,y])/(\\[Gamma] * k))^(1/(\\[Gamma] - 1)), x<0},{0,x>=0}]\r\ninitialVx[x_,y_] := 0",
+   "languageId": "wolfram",
+   "outputs": [
+    {
+     "items": [
+      {
+       "data": "<div class=\"wexpr\"><wrow><w></w><wrow><w></w><wfrac><w><wrow><w></w><w>A</w><w></w><wsup><w></w><w>x</w><w><w>2</w></w></wsup></wrow></w><w><w></w><w><w>2</w></w></w></wfrac><w>+</w><wfrac><w><wrow><w></w><w>B</w><w></w><wsup><w></w><w>y</w><w><w>2</w></w></wsup></wrow></w><w><w></w><w><w>2</w></w></w></wfrac><w>+</w><wrow><w></w><wfrac><w><w>1</w></w><w><w></w><w><w>2</w></w></w></wfrac><w></w><wrow><w></w><wb>(</wb><wrow><w></w><wsup><w></w><wrow><w></w><w>vX</w><wrow><w></w><wb>[</wb><wrow><w></w><w>x</w><w>,</w><w>y</w></wrow><wb>]</wb></wrow></wrow><w><w>2</w></w></wsup><w>+</w><wsup><w></w><wrow><w></w><w>vY</w><wrow><w></w><wb>[</wb><wrow><w></w><w>x</w><w>,</w><w>y</w></wrow><wb>]</wb></wrow></wrow><w><w>2</w></w></wsup></wrow><wb>)</wb></wrow></wrow><w>+</w><wfrac><w><wrow><w></w><w>k</w><w></w><w>γ</w><w></w><wsup><w></w><wrow><w></w><w>ρ</w><wrow><w></w><wb>[</wb><wrow><w></w><w>x</w><w>,</w><w>y</w></wrow><wb>]</wb></wrow></wrow><w><wrow><w></w><wrow><w></w><w>-</w><w>1</w></wrow><w>+</w><w>γ</w></wrow></w></wsup></wrow></w><w><w></w><w><wrow><w></w><wrow><w></w><w>-</w><w>1</w></wrow><w>+</w><w>γ</w></wrow></w></w></wfrac></wrow><w class=\"symbol\"></w><w>phi0</w></wrow></div>",
+       "mime": "x-application/wolfram-language-html"
+      },
+      {
+       "data": "(A*x^2)/2 + (B*y^2)/2 + (vX[x, y]^2 + vY[x, y]^2)/2 + (k*γ*ρ[x, y]^(-1 + γ))/(-1 + γ) == phi0",
+       "mime": "text/plain"
+      }
+     ],
+     "id": "baf977ef-bd99-4422-9ff0-e3e889ead8f9",
+     "metadata": {
+      "cellLabel": "Out[142]= ",
+      "isBoxData": false
+     }
+    },
+    {
+     "items": [
+      {
+       "data": "<div class=\"wexpr\"><wrow><w></w><wrow><w></w><wrow><w></w><wrow><w></w><w>ρ</w><wrow><w></w><wb>[</wb><wrow><w></w><w>x</w><w>,</w><w>y</w></wrow><wb>]</wb></wrow></wrow><w></w><wrow><w></w><wsup><w></w><w>vY</w><w><wrow><w></w><wb>(</wb><wrow><w></w><w>0</w><w>,</w><w>1</w></wrow><wb>)</wb></wrow></w></wsup><wrow><w></w><wb>[</wb><wrow><w></w><w>x</w><w>,</w><w>y</w></wrow><wb>]</wb></wrow></wrow></wrow><w>+</w><wrow><w></w><wrow><w></w><w>vY</w><wrow><w></w><wb>[</wb><wrow><w></w><w>x</w><w>,</w><w>y</w></wrow><wb>]</wb></wrow></wrow><w></w><wrow><w></w><wsup><w></w><w>ρ</w><w><wrow><w></w><wb>(</wb><wrow><w></w><w>0</w><w>,</w><w>1</w></wrow><wb>)</wb></wrow></w></wsup><wrow><w></w><wb>[</wb><wrow><w></w><w>x</w><w>,</w><w>y</w></wrow><wb>]</wb></wrow></wrow></wrow><w>+</w><wrow><w></w><wrow><w></w><w>ρ</w><wrow><w></w><wb>[</wb><wrow><w></w><w>x</w><w>,</w><w>y</w></wrow><wb>]</wb></wrow></wrow><w></w><wrow><w></w><wsup><w></w><w>vX</w><w><wrow><w></w><wb>(</wb><wrow><w></w><w>1</w><w>,</w><w>0</w></wrow><wb>)</wb></wrow></w></wsup><wrow><w></w><wb>[</wb><wrow><w></w><w>x</w><w>,</w><w>y</w></wrow><wb>]</wb></wrow></wrow></wrow><w>+</w><wrow><w></w><wrow><w></w><w>vX</w><wrow><w></w><wb>[</wb><wrow><w></w><w>x</w><w>,</w><w>y</w></wrow><wb>]</wb></wrow></wrow><w></w><wrow><w></w><wsup><w></w><w>ρ</w><w><wrow><w></w><wb>(</wb><wrow><w></w><w>1</w><w>,</w><w>0</w></wrow><wb>)</wb></wrow></w></wsup><wrow><w></w><wb>[</wb><wrow><w></w><w>x</w><w>,</w><w>y</w></wrow><wb>]</wb></wrow></wrow></wrow></wrow><w class=\"symbol\"></w><w>0</w></wrow></div>",
+       "mime": "x-application/wolfram-language-html"
+      },
+      {
+       "data": "ρ[x, y]*Derivative[0, 1][vY][x, y] + vY[x, y]*Derivative[0, 1][ρ][x, y] + ρ[x, y]*Derivative[1, 0][vX][x, y] + vX[x, y]*Derivative[1, 0][ρ][x, y] == 0",
+       "mime": "text/plain"
+      }
+     ],
+     "id": "f0d8c93a-c8f1-4573-ac5b-f52eedc8c5e6",
+     "metadata": {
+      "cellLabel": "Out[143]= ",
+      "isBoxData": false
+     }
+    }
+   ],
+   "metadata": {},
+   "executionSummary": {
+    "timing": {
+     "startTime": 1727093364699,
+     "endTime": 1727093365302
+    },
+    "executionOrder": 140,
+    "success": true
+   }
+  },
+  {
+   "kind": 2,
+   "value": "myODE = Laplacian[\\[Psi][x,y],{x,y}]*((\\[Gamma] - 1) * (\\[Phi][x,y] - phi0) + (Grad[\\[Psi][x,y],{x,y}].Grad[\\[Psi][x,y],{x,y}]) * (\\[Gamma] + 1)/2) + Grad[\\[Psi][x,y],{x,y}].Grad[\\[Phi][x,y],{x,y}] == 0\r\n\r\n\r\n\r\n",
+   "languageId": "wolfram",
+   "outputs": [
+    {
+     "items": [
+      {
+       "data": "<div class=\"wexpr\"><wrow><w></w><wrow><w></w><wrow><w></w><w>B</w><w></w><w>y</w><w></w><wrow><w></w><wsup><w></w><w>ψ</w><w><wrow><w></w><wb>(</wb><wrow><w></w><w>0</w><w>,</w><w>1</w></wrow><wb>)</wb></wrow></w></wsup><wrow><w></w><wb>[</wb><wrow><w></w><w>x</w><w>,</w><w>y</w></wrow><wb>]</wb></wrow></wrow></wrow><w>+</w><wrow><w></w><w>A</w><w></w><w>x</w><w></w><wrow><w></w><wsup><w></w><w>ψ</w><w><wrow><w></w><wb>(</wb><wrow><w></w><w>1</w><w>,</w><w>0</w></wrow><wb>)</wb></wrow></w></wsup><wrow><w></w><wb>[</wb><wrow><w></w><w>x</w><w>,</w><w>y</w></wrow><wb>]</wb></wrow></wrow></wrow><w>+</w><wrow><w></w><wrow><w></w><wb>(</wb><wrow><w></w><wrow><w></w><wrow><w></w><wb>(</wb><wrow><w></w><wrow><w></w><w>-</w><w>phi0</w></wrow><w>+</w><wfrac><w><wrow><w></w><w>A</w><w></w><wsup><w></w><w>x</w><w><w>2</w></w></wsup></wrow></w><w><w></w><w><w>2</w></w></w></wfrac><w>+</w><wfrac><w><wrow><w></w><w>B</w><w></w><wsup><w></w><w>y</w><w><w>2</w></w></wsup></wrow></w><w><w></w><w><w>2</w></w></w></wfrac></wrow><wb>)</wb></wrow><w></w><wrow><w></w><wb>(</wb><wrow><w></w><wrow><w></w><w>-</w><w>1</w></wrow><w>+</w><w>γ</w></wrow><wb>)</wb></wrow></wrow><w>+</w><wrow><w></w><wfrac><w><w>1</w></w><w><w></w><w><w>2</w></w></w></wfrac><w></w><wrow><w></w><wb>(</wb><wrow><w></w><w>1</w><w>+</w><w>γ</w></wrow><wb>)</wb></wrow><w></w><wrow><w></w><wb>(</wb><wrow><w></w><wsup><w></w><wrow><w></w><wsup><w></w><w>ψ</w><w><wrow><w></w><wb>(</wb><wrow><w></w><w>0</w><w>,</w><w>1</w></wrow><wb>)</wb></wrow></w></wsup><wrow><w></w><wb>[</wb><wrow><w></w><w>x</w><w>,</w><w>y</w></wrow><wb>]</wb></wrow></wrow><w><w>2</w></w></wsup><w>+</w><wsup><w></w><wrow><w></w><wsup><w></w><w>ψ</w><w><wrow><w></w><wb>(</wb><wrow><w></w><w>1</w><w>,</w><w>0</w></wrow><wb>)</wb></wrow></w></wsup><wrow><w></w><wb>[</wb><wrow><w></w><w>x</w><w>,</w><w>y</w></wrow><wb>]</wb></wrow></wrow><w><w>2</w></w></wsup></wrow><wb>)</wb></wrow></wrow></wrow><wb>)</wb></wrow><w></w><wrow><w></w><wb>(</wb><wrow><w></w><wrow><w></w><wsup><w></w><w>ψ</w><w><wrow><w></w><wb>(</wb><wrow><w></w><w>0</w><w>,</w><w>2</w></wrow><wb>)</wb></wrow></w></wsup><wrow><w></w><wb>[</wb><wrow><w></w><w>x</w><w>,</w><w>y</w></wrow><wb>]</wb></wrow></wrow><w>+</w><wrow><w></w><wsup><w></w><w>ψ</w><w><wrow><w></w><wb>(</wb><wrow><w></w><w>2</w><w>,</w><w>0</w></wrow><wb>)</wb></wrow></w></wsup><wrow><w></w><wb>[</wb><wrow><w></w><w>x</w><w>,</w><w>y</w></wrow><wb>]</wb></wrow></wrow></wrow><wb>)</wb></wrow></wrow></wrow><w class=\"symbol\"></w><w>0</w></wrow></div>",
+       "mime": "x-application/wolfram-language-html"
+      },
+      {
+       "data": "B*y*Derivative[0, 1][ψ][x, y] + A*x*Derivative[1, 0][ψ][x, y] + ((-phi0 + (A*x^2)/2 + (B*y^2)/2)*(-1 + γ) + ((1 + γ)*(Derivative[0, 1][ψ][x, y]^2 + Derivative[1, 0][ψ][x, y]^2))/2)*(Derivative[0, 2][ψ][x, y] + Derivative[2, 0][ψ][x, y]) == 0",
+       "mime": "text/plain"
+      }
+     ],
+     "id": "b7c87ac5-5e70-4573-b6ec-8b8be58d925f",
+     "metadata": {
+      "cellLabel": "Out[132]= ",
+      "isBoxData": false
+     }
+    },
+    {
+     "items": [
+      {
+       "data": "<div class=\"wexpr\"><wrow><w></w><w>DSolve</w><wrow><w></w><wb>[</wb><wrow><w></w><wrow><w></w><wrow><w></w><wrow><w></w><w>B</w><w></w><w>y</w><w></w><wrow><w></w><wsup><w></w><w>ψ</w><w><wrow><w></w><wb>(</wb><wrow><w></w><w>0</w><w>,</w><w>1</w></wrow><wb>)</wb></wrow></w></wsup><wrow><w></w><wb>[</wb><wrow><w></w><w>x</w><w>,</w><w>y</w></wrow><wb>]</wb></wrow></wrow></wrow><w>+</w><wrow><w></w><w>A</w><w></w><w>x</w><w></w><wrow><w></w><wsup><w></w><w>ψ</w><w><wrow><w></w><wb>(</wb><wrow><w></w><w>1</w><w>,</w><w>0</w></wrow><wb>)</wb></wrow></w></wsup><wrow><w></w><wb>[</wb><wrow><w></w><w>x</w><w>,</w><w>y</w></wrow><wb>]</wb></wrow></wrow></wrow><w>+</w><wrow><w></w><wrow><w></w><wb>(</wb><wrow><w></w><wrow><w></w><wrow><w></w><wb>(</wb><wrow><w></w><wrow><w></w><w>-</w><w>phi0</w></wrow><w>+</w><wfrac><w><wrow><w></w><w>A</w><w></w><wsup><w></w><w>x</w><w><w>2</w></w></wsup></wrow></w><w><w></w><w><w>2</w></w></w></wfrac><w>+</w><wfrac><w><wrow><w></w><w>B</w><w></w><wsup><w></w><w>y</w><w><w>2</w></w></wsup></wrow></w><w><w></w><w><w>2</w></w></w></wfrac></wrow><wb>)</wb></wrow><w></w><wrow><w></w><wb>(</wb><wrow><w></w><wrow><w></w><w>-</w><w>1</w></wrow><w>+</w><w>γ</w></wrow><wb>)</wb></wrow></wrow><w>+</w><wrow><w></w><wfrac><w><w>1</w></w><w><w></w><w><w>2</w></w></w></wfrac><w></w><wrow><w></w><wb>(</wb><wrow><w></w><w>1</w><w>+</w><w>γ</w></wrow><wb>)</wb></wrow><w></w><wrow><w></w><wb>(</wb><wrow><w></w><wsup><w></w><wrow><w></w><wsup><w></w><w>ψ</w><w><wrow><w></w><wb>(</wb><wrow><w></w><w>0</w><w>,</w><w>1</w></wrow><wb>)</wb></wrow></w></wsup><wrow><w></w><wb>[</wb><wrow><w></w><w>x</w><w>,</w><w>y</w></wrow><wb>]</wb></wrow></wrow><w><w>2</w></w></wsup><w>+</w><wsup><w></w><wrow><w></w><wsup><w></w><w>ψ</w><w><wrow><w></w><wb>(</wb><wrow><w></w><w>1</w><w>,</w><w>0</w></wrow><wb>)</wb></wrow></w></wsup><wrow><w></w><wb>[</wb><wrow><w></w><w>x</w><w>,</w><w>y</w></wrow><wb>]</wb></wrow></wrow><w><w>2</w></w></wsup></wrow><wb>)</wb></wrow></wrow></wrow><wb>)</wb></wrow><w></w><wrow><w></w><wb>(</wb><wrow><w></w><wrow><w></w><wsup><w></w><w>ψ</w><w><wrow><w></w><wb>(</wb><wrow><w></w><w>0</w><w>,</w><w>2</w></wrow><wb>)</wb></wrow></w></wsup><wrow><w></w><wb>[</wb><wrow><w></w><w>x</w><w>,</w><w>y</w></wrow><wb>]</wb></wrow></wrow><w>+</w><wrow><w></w><wsup><w></w><w>ψ</w><w><wrow><w></w><wb>(</wb><wrow><w></w><w>2</w><w>,</w><w>0</w></wrow><wb>)</wb></wrow></w></wsup><wrow><w></w><wb>[</wb><wrow><w></w><w>x</w><w>,</w><w>y</w></wrow><wb>]</wb></wrow></wrow></wrow><wb>)</wb></wrow></wrow></wrow><w class=\"symbol\"></w><w>0</w></wrow><w>,</w><wrow><w></w><w>ψ</w><wrow><w></w><wb>[</wb><wrow><w></w><w>x</w><w>,</w><w>y</w></wrow><wb>]</wb></wrow></wrow><w>,</w><wrow><w></w><wb>{</wb><wrow><w></w><w>x</w><w>,</w><w>y</w></wrow><wb>}</wb></wrow></wrow><wb>]</wb></wrow></wrow></div>",
+       "mime": "x-application/wolfram-language-html"
+      },
+      {
+       "data": "DSolve[B*y*Derivative[0, 1][ψ][x, y] + A*x*Derivative[1, 0][ψ][x, y] + ((-phi0 + (A*x^2)/2 + (B*y^2)/2)*(-1 + γ) + ((1 + γ)*(Derivative[0, 1][ψ][x, y]^2 + Derivative[1, 0][ψ][x, y]^2))/2)*(Derivative[0, 2][ψ][x, y] + Derivative[2, 0][ψ][x, y]) == 0, ψ[x, y], {x, y}]",
+       "mime": "text/plain"
+      }
+     ],
+     "id": "bda94412-571c-4db0-bfaa-e4fa2fc3079b",
+     "metadata": {
+      "cellLabel": "Out[133]= ",
+      "isBoxData": false
+     }
+    }
+   ],
+   "metadata": {},
+   "executionSummary": {
+    "timing": {
+     "startTime": 1727006994428,
+     "endTime": 1727006994733
+    },
+    "executionOrder": 132,
+    "success": true
+   }
+  }
+ ]
+}
