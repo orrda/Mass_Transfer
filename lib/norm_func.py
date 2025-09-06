@@ -1,9 +1,8 @@
 import numpy as np
+import platform
 import matplotlib.pyplot as plt
 from scipy.optimize import fsolve
-from scipy.optimize import minimize_scalar
 import scipy
-from scipy.optimize import curve_fit
 import scipy.optimize
 
 # Constants
@@ -175,7 +174,12 @@ def L1_massflux(M2,a):
     C1 = - G * (M1/(L1 ** 3) + M2 / ((a - L1)**3))
     B1 = C1 - omega**2
     A1 = - 2 * C1 - omega**2
-    return Gamma_coefficent3D(gamma,K) * phi_0**((3*gamma - 1)/(2*(gamma - 1))) * (1+abs(A1/B1))**(-0.5) * (abs(B1 * C1))**(-0.5)
+    gamma_coeff = Gamma_coefficent3D(gamma,K)
+    alpha = (3*gamma - 1)/(2*(gamma - 1))
+    phi_coeff = phi_0 ** alpha #((3*gamma - 1)/(2*(gamma - 1)))
+    geom_coeff = (1+abs(A1/B1))**(-0.5) * (abs(B1 * C1))**(-0.5)
+    mass_flux = gamma_coeff * phi_coeff * geom_coeff
+    return mass_flux
 
 def L2_massflux(M2,a):
     gamma = 5/3

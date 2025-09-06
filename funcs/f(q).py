@@ -41,12 +41,12 @@ def getB2(q):
 def getC1(q):
     L1 = get_L1(q)
 
-    return 1 / L1**3 + q / (1 - L1)**3
+    return 1 / (L1**3) + q / ((1 - L1)**3)
 
 def getC2(q):
     L2 = get_L2(q)
 
-    return 1 / L2**3 + q / (L2 - 1)**3
+    return 1 / (L2**3) + q / ((L2 - 1)**3)
 
 def getA1(q):
     L1 = get_L1(q)
@@ -101,18 +101,20 @@ def get_g(q):
     L1 = get_L1(q)
     L2 = get_L2(q)
     
-    pot1 = - 1/L1 - q/(1 - L1) - q**2 / (2 * (1 + q))
-    pot2 = - 1/L2 - q/(L2 - 1) - q**2 / (2 * (1 + q))
+    pot1 = - 1/L1 - q/(1 - L1) - 0.5 * (1 + q) * ( L1 - q/(1 + q))**2 
+    pot2 = - 1/L2 - q/(L2 - 1) - 0.5 * (1 + q) * ( L2 - q/(1 + q))**2 
 
     return pot1 - pot2
 
 def get_f(q):
-    B1 = getB1(q)
-    B2 = getB2(q)
+    #B1 = getB1(q)
+    #B2 = getB2(q)
     C1 = getC1(q)
     C2 = getC2(q)
+    f = C1 / C2
+    print("for q =", q, "f =", f)
 
-    return np.sqrt((B1 * C1) / (B2 * C2))
+    return C1 / C2
 
 def get_f_mod(q):
     B1 = getB1(q)
@@ -126,11 +128,11 @@ def get_f_mod(q):
 
 
 def D_crit(q, alpha):
-    f = get_f(q) ** (1/alpha)
+    f = (get_f(q)) ** (1/alpha)
     return - get_g(q) * f / (f - 1)
 
 def D_crit_numer(q, alpha):
-    f = get_f_mod(q) ** (1/alpha)
+    f = (get_f_mod(q)) ** (1/alpha)
     return - get_g(q) * f / (f - 1)
 
 
@@ -166,71 +168,77 @@ def get_C_ratio(q):
 
 
 
+
+
+
+
+
+
 gamma = 5/3
-powers = np.linspace(-6, 1, 100)
+powers = np.linspace(-6, 0, 100)
 qs = 10**powers
-f0 = 1
-
-C_ratio = [get_C_ratio(q) for q in qs]
-plt.plot(qs, C_ratio)
-plt.grid()
-plt.xscale('log')
-plt.show()
 
 
+L1_arr = [1 - get_L1(q) for q in qs]
+L2_arr = [get_L2(q) - 1 for q in qs]
+mu_arr = [(q/(3*(1 + q)))**(1/3) for q in qs]
 
-
-
-
-
-
-ratios1 = [L1_Massflux_MOD(q) for q in qs]
-ratios2 = [L2_Massflux_MOD(q) for q in qs]
-
-ratios1 = np.array(ratios1)
-ratios2 = np.array(ratios2)
-
-rratios = ratios2/ratios1
-plt.plot(qs, rratios)
-plt.grid()
-plt.xscale('log')
-plt.show()
-
-
-plt.plot(qs, ratios1, label='L1')
-plt.plot(qs, ratios2, label='L2')
-plt.grid()
-plt.xlabel('log(q)')
-plt.ylabel('New M_dot / Old M_dot')
-plt.xscale('log')
-plt.title("New analytic approximation / Ritter's forumla, with reg avg")
+plt.plot(qs, L1_arr, label='L1')
+plt.plot(qs, L2_arr, label='L2')
+plt.plot(qs, mu_arr, label='mu')
 plt.legend()
+plt.xscale('log')
 plt.show()
 
+alpha = 3
+D = 0.2
+f_arr = np.array([get_f(q) for q in qs])
+g_arr = np.array([1+D*get_g(q) for q in qs])
 
+D_crits_numer = (g_arr**3) * f_arr
 
+plt.plot(qs, f_arr, label='f')
+plt.plot(qs, g_arr, label='g')
+plt.plot(qs, D_crits_numer, label='D_crit_numer')
+plt.legend()
+plt.xscale('log')
+plt.show()
 
-
-alpha = get_alphas(5/3)
 D_crits = [D_crit(q, alpha) for q in qs]
-D_crits_numer = np.array([D_crit_numer(q, alpha) for q in qs])
 
-#plt.plot(qs, D_crits, label='D_crit_Ritter')
-plt.plot(qs, D_crits_numer, label='D_crit_new')
-plt.plot(qs, D_crits, label='D_crit_old')
+mu_arr = np.array([q/(1+q) for q in qs])
+D_crits_anl = (8/3) * (mu_arr/3)**(3/2)
+
+
+plt.plot(qs, D_crits, label='D_crit')
+plt.plot(qs, D_crits_anl, label='D_crit_anl')
 plt.grid()
 plt.legend()
 plt.xscale('log')
+plt.yscale('log')
 plt.xlabel('q')
 plt.ylabel('D_crit')
-
-
 
 
 q_crit = get_q_crit(alpha)
 print("q_crit = ", q_crit)
 plt.title("gamma = 5/3")
 plt.show()
+
+
+D_crits = np.array(D_crits)
+
+xi_crit = (1 + D_crits)**(-1)
+
+plt.plot(qs, xi_crit, label=r'$\xi_{crit}$')
+plt.grid()
+plt.xscale('log')
+plt.xlabel('q')
+plt.ylabel(r'$\xi_{crit}$')
+plt.legend()
+plt.show()
+
+
 
 
 q_power = -0.1
